@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salon Management System</title>
+ 
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg: #100e10;
+    --card: #1c191b;
+    --gold: #d8b779;
+    --gold-light: #f2d9a5;
+    --text: #f8f3ed;
+    --muted: #b8adae;
+    --border: #393033;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:
+      radial-gradient(ellipse at top left, #382426 0, transparent 45%),
+      linear-gradient(135deg, #100e10, #191416 60%, #24191b);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  header {
+    position: relative;
+    overflow: hidden;
+    padding: 35px 6%;
+    background: linear-gradient(120deg, #211719, #392528, #191416);
+    border-bottom: 1px solid #73583b;
+  }
+
+  header::after {
+    content: "✦";
+    position: absolute;
+    right: 9%;
+    top: -30px;
+    font-size: 150px;
+    color: #d8b77912;
+    pointer-events: none;
+  }
+
+  header h1 {
+    margin: 0 0 7px;
+    font-family: Georgia, serif;
+    font-size: clamp(27px, 4vw, 39px);
+    letter-spacing: 1px;
+    color: var(--gold-light);
+  }
+
+  header p {
+    margin: 0;
+    color: #d0c0bd;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  main {
+    width: min(1180px, 92%);
+    margin: 38px auto;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 25px;
+    align-items: start;
+  }
+
+  .card {
+    background: linear-gradient(145deg, #211d1f, #191618);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 15px 40px #00000035;
+    transition: border-color 0.3s, transform 0.3s,
+                box-shadow 0.3s;
+  }
+
+  .card:hover {
+    border-color: #8f7049;
+    box-shadow: 0 18px 45px #00000050;
+  }
+
+  h2 {
+    margin: 0 0 21px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #393033;
+    color: var(--gold-light);
+    font-family: Georgia, serif;
+    font-size: 23px;
+    font-weight: 500;
+  }
+
+  label {
+    display: block;
+    margin: 15px 0 7px;
+    color: #e7d9d5;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #46383b;
+    border-radius: 9px;
+    outline: none;
+    font: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: #151214;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+
+  input::placeholder {
+    color: #827579;
+  }
+
+  input:focus,
+  select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px #d8b77918;
+  }
+
+  select option {
+    background: #211d1f;
+    color: white;
+  }
+
+  input[type="date"],
+  input[type="time"] {
+    color-scheme: dark;
+  }
+
+  button {
+    border: 1px solid #e8c98e;
+    border-radius: 9px;
+    padding: 12px 17px;
+    background: linear-gradient(135deg, #e5c58b, #b58b4e);
+    color: #211714;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s,
+                filter 0.2s;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow: 0 7px 20px #d8b77925;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .submit {
+    width: 100%;
+    margin-top: 23px;
+    padding: 14px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .services {
+    display: grid;
+    gap: 11px;
+  }
+
+  .service {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 15px;
+    background: linear-gradient(110deg, #292124, #201b1e);
+    border: 1px solid #393033;
+    border-radius: 10px;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+
+  .service:hover {
+    border-color: #a68759;
+    transform: translateX(4px);
+  }
+
+  .service span {
+    color: #e9dedb;
+    font-size: 14px;
+  }
+
+  .service strong {
+    color: var(--gold-light);
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .appointment {
+    margin: 12px 0;
+    padding: 16px;
+    background: #211c1f;
+    border: 1px solid #393033;
+    border-left: 3px solid var(--gold);
+    border-radius: 10px;
+    transition: background 0.25s;
+  }
+
+  .appointment:hover {
+    background: #292124;
+  }
+
+  .appointment p {
+    margin: 7px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .appointment-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .appointment-top strong {
+    color: #f4e6d5;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+
+  .delete {
+    flex-shrink: 0;
+    padding: 7px 11px;
+    border: 1px solid #8c4245;
+    background: #57282c;
+    color: #ffe7e4;
+    font-size: 12px;
+  }
+
+  .delete:hover {
+    background: #81363b;
+    box-shadow: none;
+  }
+
+  #message {
+    min-height: 20px;
+    margin-top: 13px;
+    font-size: 13px;
+  }
+
+  .empty {
+    padding: 18px;
+    text-align: center;
+    color: var(--muted);
+    background: #211c1f;
+    border: 1px dashed #514047;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  ::selection {
+    background: #d8b779;
+    color: #171112;
+  }
+
+  @media (max-width: 800px) {
+    main {
+      grid-template-columns: 1fr;
+      width: min(600px, 92%);
+      margin: 25px auto;
+      gap: 20px;
+    }
+
+    header {
+      padding: 27px 5%;
+    }
+
+    .card {
+      padding: 21px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .appointment-top {
+      align-items: flex-start;
+    }
+
+    .appointment-top strong {
+      font-size: 12px;
+    }
+
+    .delete {
+      padding: 6px 8px;
+    }
+
+    h2 {
+      font-size: 21px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+    }
+  }
+</style>
+
+</head>
+
+<body>
+  <header>
+    <h1>✂️ Salon Management System</h1>
+    <p>Book appointments and manage your salon customers easily.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Book an Appointment</h2>
+      <form id="bookingForm">
+        <label for="name">Customer Name</label>
+        <input id="name" name="name" required placeholder="Enter customer name">
+
+        <label for="phone">Phone Number</label>
+        <input id="phone" name="phone" required inputmode="tel" placeholder="Enter phone number">
+
+        <label for="service">Select Service</label>
+        <select id="service" name="service" required>
+          <option value="">Choose a service</option>
+          <option>Hair Cut</option>
+          <option>Hair Styling</option>
+          <option>Beard Trim</option>
+          <option>Hair Coloring</option>
+          <option>Facial</option>
+        </select>
+
+        <label for="date">Appointment Date</label>
+        <input id="date" name="date" type="date" required>
+
+        <label for="time">Appointment Time</label>
+        <input id="time" name="time" type="time" required>
+
+        <button class="submit" type="submit">Book Appointment</button>
+        <div id="message" role="status"></div>
+      </form>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>Our Services</h2>
+        <div id="services" class="services">
+          <div class="service"><span>Hair Cut</span><strong>₹150</strong></div>
+          <div class="service"><span>Hair Styling</span><strong>₹250</strong></div>
+          <div class="service"><span>Beard Trim</span><strong>₹100</strong></div>
+          <div class="service"><span>Hair Coloring</span><strong>₹500</strong></div>
+          <div class="service"><span>Facial</span><strong>₹400</strong></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:22px">
+        <h2>Appointments</h2>
+        <div id="appointments">
+          <p class="empty">Loading appointments...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("bookingForm");
+    const message = document.getElementById("message");
+    const appointmentsBox = document.getElementById("appointments");
+    const dateInput = document.getElementById("date");
+    dateInput.min = new Date().toISOString().split("T")[0];
+
+    async function loadAppointments() {
+      try {
+        const response = await fetch("/api/appointments");
+        const data = await response.json();
+        if (!response.ok || data.error) throw new Error(data.error || "Unable to load.");
+        if (!data.length) {
+          appointmentsBox.innerHTML = '<p class="empty">No appointments yet.</p>';
+          return;
+        }
+        appointmentsBox.innerHTML = data.map(a => `
+        <div class="appointment">
+          <div class="appointment-top">
+            <strong>${escapeHTML(a.customer_name)} — ${escapeHTML(a.service)}</strong>
+            <button class="delete" onclick="deleteAppointment(${a.id})">Delete</button>
+          </div>
+          <p>📞 ${escapeHTML(a.phone)}</p>
+          <p>📅 ${escapeHTML(a.appointment_date)} at ${escapeHTML(String(a.appointment_time).slice(0, 5))}</p>
+        </div>`).join("");
+      } catch (error) {
+        appointmentsBox.innerHTML = '<p class="empty">Cannot load appointments. Check that Flask and MySQL are running.</p>';
+      }
+    }
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[char]);
+    }
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      message.style.color = "#6d3d45";
+      message.textContent = "Booking...";
+      const data = Object.fromEntries(new FormData(form).entries());
+      try {
+        const response = await fetch("/api/appointments", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Booking failed.");
+        message.style.color = "green";
+        message.textContent = result.message;
+        form.reset();
+        dateInput.min = new Date().toISOString().split("T")[0];
+        await loadAppointments();
+      } catch (error) {
+        message.style.color = "#b73e46";
+        message.textContent = error.message || "Backend connection failed.";
+      }
+    });
+
+    async function deleteAppointment(id) {
+      if (!confirm("Delete this appointment?")) return;
+      try {
+        const response = await fetch(`/api/appointments/${id}`, {method: "DELETE"});
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Delete failed.");
+        await loadAppointments();
+      } catch (error) {
+        alert(error.message || "Could not delete appointment.");
+      }
+    }
+
+    loadAppointments();
+  </script>
+</body>
+
+</html>
